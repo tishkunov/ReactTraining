@@ -21,11 +21,17 @@ function PostList() {
     ? posts.filter((post) => post.tags.includes(selectedTag))
     : posts;
 
+  const handleClick = (e) => {
+  const tag = e.target.getAttribute('dataId')
+setSelectedTag(tag)
+  }
+
   return (
     <div className={l.PostList}>
-      <div className={l.tags}>
+      <div className={l.tags} onClick={handleClick}>
         {tags.map((tag) => (
           <button
+            dataId={tag}  
             key={tag}
             onClick={() => setSelectedTag(tag === selectedTag ? null : tag)}
             className={tag === selectedTag ? l.activeTag : ""}
