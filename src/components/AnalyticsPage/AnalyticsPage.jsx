@@ -39,33 +39,38 @@ const options = {
   },
 };
 
+const black = rgba(75, 192, 192, 0.2);
+
 function AnalyticsPage() {
   const [posts, setPosts] = useState([]);
   
-  useEffect(() => {
-    getPostsApi().then((data) => setPosts(data.posts));
-  }, []);
+  
+
+  const labelsData = useMemo(() => posts.map((post) => post.id), [posts])
+  const likesData = useMemo(() => posts.map((post) => post.reactions.likes), [posts])
+  const dislikesData = useMemo(() => posts.map((post) => post.reactions.dislikes), [posts])
+  const viewsData = useMemo(() => posts.map((post) => post.views), [posts])
 
   const lineBarData = {
-    labels: posts.map((data) => data.id), // Заголовки постов
+    labels: labelsData, // Заголовки постов
     datasets: [
       {
         label: "Likes",
-        data: posts.map((data) => data.reactions.likes),
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        data: likesData,
+        backgroundColor: black,
         borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
       },
       {
         label: "Dislikes",
-        data: posts.map((data) => data.reactions.dislikes),
+        data: dislikesData,
         backgroundColor: "rgba(255, 99, 132, 0.2)",
         borderColor: "rgba(255, 99, 132, 1)",
         borderWidth: 1,
       },
       {
         label: "Views",
-        data: posts.map((data) => data.views),
+        data: viewsData,
         backgroundColor: "rgba(54, 162, 235, 0.2)",
         borderColor: "rgba(54, 162, 235, 1)",
         borderWidth: 1,
@@ -87,6 +92,13 @@ function AnalyticsPage() {
       },
     ],
   };
+
+
+useEffect(() => {
+    getPostsApi().then((data) => setPosts(data.posts));
+}, []);
+
+  
   return (
     <div>
       <h1>Страница аналитики</h1>
