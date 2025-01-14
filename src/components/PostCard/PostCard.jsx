@@ -1,12 +1,17 @@
 import { Link } from "react-router-dom";
 import p from "./PostCard.module.css";
 
+const Routes = {
+  POST: '/post',
+}
+
 function PostCard(props) {
+  const { title, body, id, dislikes} = props; 
   return (
-    <div className={p.post} key={props.id}>
-      <h1 className={p.PostCard_title}>{props.title}</h1>
-      <p>{props.body}</p>
-      <Link to={`/post/${props.id}`}>
+    <div className={p.post} key={id}>
+      <h1 className={p.PostCard_title}>{title}</h1>
+      <p>{body}</p>
+      <Link to={`${Routes.POST}/${id}`}>
         <span>Перейти к посту</span>
       </Link>
       <div className={p.badge}>
